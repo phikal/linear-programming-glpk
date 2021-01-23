@@ -182,7 +182,7 @@
                ordering-algorithm)
          (let ((result (%interior glpk-ptr ctrl)))
             (unless (eq result :success)
-               (error "Solver failed with state ~A" result)))
+              (error 'linear-programming:solver-error)))
          (case (%ipt-status glpk-ptr)
             ((:no-feasible-solution-exists :infeasible)
              (error 'linear-programming:infeasible-problem-error))

@@ -158,8 +158,8 @@
               (error "Solver failed with state ~A" result)))
         (case (%get-status glpk-ptr)
            ((:no-feasible-solution-exists :infeasible)
-            (error 'infeasible-problem-error))
-           (:unbounded (error 'unbounded-problem-error)))))
+            (error 'linear-programming:infeasible-problem-error))
+           (:unbounded (error 'linear-programming:unbounded-problem-error)))))
       (:interior-point
        (when (and solver-method
                   (or fpto-supplied-p
@@ -185,8 +185,8 @@
                (error "Solver failed with state ~A" result)))
          (case (%ipt-status glpk-ptr)
             ((:no-feasible-solution-exists :infeasible)
-             (error 'infeasible-problem-error))
-            (:unbounded (error 'unbounded-problem-error)))))
+             (error 'linear-programming:infeasible-problem-error))
+            (:unbounded (error 'linear-programming:unbounded-problem-error)))))
       (:integer
        (when (and solver-method
                   (or fpto-supplied-p
@@ -239,7 +239,7 @@
          ;; TODO: support more options
          (let ((result (%intopt glpk-ptr ctrl)))
             (unless (eq result :success)
-               (error "Solver failed with state ~A" result)))
+               (error "Solver failed with state ~A"  result)))
          (case (%mip-status glpk-ptr)
             ((:infeasible :no-feasible-solution-exists)
              (error 'infeasible-problem-error))
